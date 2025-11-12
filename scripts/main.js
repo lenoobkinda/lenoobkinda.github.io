@@ -39,7 +39,7 @@
         title.textContent = 'About Me';
         header.textContent = 'About Me';
         p.textContent = 'Currently studying in web programming'
-        p.innerHTML += '<br><br>Prog and Markup Languages: C#, JS, C++, PHP, HTML, CSS Python<br><br>Tools: VS Code, VS, MySQL, VmWare, VBox, Putty (SSH), Packet Tracer<br><br>Operating Systems: Windows, Debian Linux, Ubuntu Linux<br><br><a href="https://github.com/lenoobkinda" style="text-decoration: underline;">Link to my GitHub</a>';
+        p.innerHTML += '<br><br>Prog and Markup Languages: C#, JS, C++, PHP, HTML, CSS, Python<br><br>Tools: VS Code, VS, MySQL, VmWare, VBox, Putty (SSH), Packet Tracer<br><br>Operating Systems: Windows, Debian Linux, Ubuntu Linux<br><br><a href="https://github.com/lenoobkinda" style="text-decoration: underline;">Link to my GitHub</a>';
     })
 
     mainf.addEventListener('click', () => {
@@ -87,4 +87,5 @@
         dragging = false;
         win.style.transition = '';
       });
+
     })();
