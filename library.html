@@ -96,7 +96,7 @@
     </div>
     <script>
 document.addEventListener('DOMContentLoaded', async function(){
-    const mediaDir = 'media';
+    const mediaDir = 'Media';
     const mediaListEl = document.getElementById('media-list');
     const audioPlayer = document.getElementById('audio-player');
     const songName = document.getElementById('song-name');
@@ -150,7 +150,6 @@ document.addEventListener('DOMContentLoaded', async function(){
         })
     }, {rootMargin:'400px'});
 
-    // discovery: try GitHub Contents API (auto-detect repo), then manifest.json fallback
     async function listMediaFromGitHub(){
         let owner, repo;
         const host = location.hostname;
@@ -164,7 +163,7 @@ document.addEventListener('DOMContentLoaded', async function(){
             if (match && match.includes('/')) [owner, repo] = match.split('/');
         }
         if (!owner || !repo) return [];
-        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${mediaDir}`;
+        const apiUrl = `https://api.github.com/repos/${owner}/contents/${mediaDir}`;
         try{
             const res = await fetch(apiUrl);
             if (!res.ok) return [];
@@ -178,7 +177,6 @@ document.addEventListener('DOMContentLoaded', async function(){
             const r = await fetch(mediaDir + '/manifest.json');
             if (!r.ok) return [];
             const data = await r.json();
-            // manifest may be either {files:[{name,url,type}]} or {images:[],videos:[],audio:[]}
             if (Array.isArray(data.files)) return data.files.map(f=>({name:f.name,url:f.url|| (mediaDir + '/' + f.name)}));
             const list = [];
             ['images','videos','audio'].forEach(k=>{ if (Array.isArray(data[k])) data[k].forEach(n=> list.push({name:n,url:mediaDir + '/' + n})) });
