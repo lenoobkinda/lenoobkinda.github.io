@@ -106,14 +106,41 @@ document.addEventListener('DOMContentLoaded', async function(){
     const filterForm = document.getElementById('filter-form');
     volumeSlider.addEventListener('input', function(){ audioPlayer.volume = volumeSlider.value });
 
-    function createAnimatedImage(){ if(document.getElementById('animated-img')) return; const img=document.createElement('img'); img.src='https://chud.love/chris.png'; img.style.position='fixed'; img.style.right='-175px'; img.style.bottom='10px'; img.style.width='100px'; img.style.height='200px'; img.style.transition='right 1s ease-in-out'; img.id='animated-img'; document.body.appendChild(img); setTimeout(()=>{ img.style.right='2px' },100) }
+    function createAnimatedImage(){ if(document.getElementById('animated-img')) return; const img=document.createElement('img'); img.src='contents/media/1.png'; img.style.position='fixed'; img.style.right='-175px'; img.style.bottom='10px'; img.style.width='100px'; img.style.height='200px'; img.style.transition='right 1s ease-in-out'; img.id='animated-img'; document.body.appendChild(img); setTimeout(()=>{ img.style.right='2px' },100) }
     function removeAnimatedImage(){ const e=document.getElementById('animated-img'); if(e) e.remove() }
 
-    function togglePlayPause(){ if(!audioPlayer.src) return; if(audioPlayer.paused){ audioPlayer.play(); playPauseButton.textContent='⏸️'; if(songName.textContent==='Little Girls - Izaiah.mp3') createAnimatedImage() } else { audioPlayer.pause(); playPauseButton.textContent='▶️' } }
+    function togglePlayPause(){
+        if(!audioPlayer.src) return;
+        if(audioPlayer.paused){
+            audioPlayer.play().catch(()=>{});
+            window.playing = true;
+        } else {
+            audioPlayer.pause();
+            window.playing = false;
+        }
+    }
     playPauseButton.addEventListener('click', togglePlayPause);
 
-    nextSongButton.addEventListener('click', ()=>{ if(!window.songs || window.songs.length===0) return; window.currentIndex = (window.currentIndex+1)%window.songs.length; window.updateSongInfo(); audioPlayer.play(); playPauseButton.textContent='⏸️'; if(songName.textContent==='Little Girls - Izaiah.mp3') createAnimatedImage(); });
-    audioPlayer.addEventListener('ended', function(){ removeAnimatedImage(); if(window.songs && window.songs.length) { window.currentIndex = (window.currentIndex+1)%window.songs.length; window.updateSongInfo(); window.playing && audioPlayer.play(); } });
+    nextSongButton.addEventListener('click', ()=>{
+        if(!window.songs || window.songs.length===0) return;
+        window.currentIndex = (window.currentIndex+1)%window.songs.length;
+        window.updateSongInfo();
+        window.playing = true;
+        audioPlayer.play().catch(()=>{});
+    });
+
+    audioPlayer.addEventListener('ended', function(){
+        removeAnimatedImage();
+        if(window.songs && window.songs.length){
+            window.currentIndex = (window.currentIndex+1)%window.songs.length;
+            window.updateSongInfo();
+            window.playing = true;
+            audioPlayer.play().catch(()=>{});
+        }
+    });
+
+    audioPlayer.addEventListener('play', ()=>{ playPauseButton.textContent = '⏸️'; window.playing = true; });
+    audioPlayer.addEventListener('pause', ()=>{ playPauseButton.textContent = '▶️'; window.playing = false; });
 
     const mediaExtensions = { images: ['jpg','jpeg','png','gif','webp','svg'], videos: ['mp4','mov','webm','mkv','avi'], audio: ['mp3','wav','ogg','m4a'] };
     function extOf(name){ const p = name.lastIndexOf('.'); return p>-1? name.slice(p+1).toLowerCase():'' }
@@ -150,54 +177,54 @@ document.addEventListener('DOMContentLoaded', async function(){
         })
     }, {rootMargin:'400px'});
 
-    async function listMediaFromGitHub(){
-        let owner, repo;
-        const host = location.hostname;
-        if (host.endsWith('github.io')){
-            owner = host.split('.')[0];
-            const parts = location.pathname.split('/').filter(Boolean);
-            if (parts.length>0) repo = parts[0];
-            else repo = owner + '.github.io';
-        } else {
-            const match = new URLSearchParams(location.search).get('gh');
-            if (match && match.includes('/')) [owner, repo] = match.split('/');
-        }
-        if (!owner || !repo) return [];
-        const apiUrl = `https://api.github.com/repos/${owner}/contents/${mediaDir}`;
-        try{
-            const res = await fetch(apiUrl);
-            if (!res.ok) return [];
-            const items = await res.json();
-            return items.filter(i => i.type==='file' && i.download_url).map(i=>({name:i.name,url:i.download_url}));
-        }catch(e){ return [] }
-    }
+    const files = [
+        { name: '1.png', url: encodeURI(mediaDir + '/1.png'), type: 'image' },
+        { name: '2.jpg', url: encodeURI(mediaDir + '/2.jpg'), type: 'image' },
+        { name: '3.jpg', url: encodeURI(mediaDir + '/3.jpg'), type: 'image' },
+        { name: '4.jpg', url: encodeURI(mediaDir + '/4.jpg'), type: 'image' },
+        { name: '5.jpg', url: encodeURI(mediaDir + '/5.jpg'), type: 'image' },
+        { name: '6.png', url: encodeURI(mediaDir + '/6.png'), type: 'image' },
+        { name: '9.png', url: encodeURI(mediaDir + '/9.png'), type: 'image' },
+        { name: '10.png', url: encodeURI(mediaDir + '/10.jpg'), type: 'image' },
+        { name: '11.png', url: encodeURI(mediaDir + '/11.jpg'), type: 'image' },
+        { name: '12.png', url: encodeURI(mediaDir + '/12.jpg'), type: 'image' },
+        { name: '13.png', url: encodeURI(mediaDir + '/13.jpg'), type: 'image' },
+        { name: '14.png', url: encodeURI(mediaDir + '/14.png'), type: 'image' },
+        { name: '15.png', url: encodeURI(mediaDir + '/15.png'), type: 'image' },
+        { name: '16.png', url: encodeURI(mediaDir + '/16.png'), type: 'image' },
+        { name: '17.png', url: encodeURI(mediaDir + '/17.png'), type: 'image' },
+        { name: '18.png', url: encodeURI(mediaDir + '/18.png'), type: 'image' },
+        { name: '19.png', url: encodeURI(mediaDir + '/19.png'), type: 'image' },
+        { name: '20.png', url: encodeURI(mediaDir + '/20.png'), type: 'image' },
+        { name: '21.png', url: encodeURI(mediaDir + '/21.png'), type: 'image' },
+        { name: '22.png', url: encodeURI(mediaDir + '/22.png'), type: 'image' },
+        { name: '7.mp4', url: encodeURI(mediaDir + '/7.mp4'), type: 'video' },
+        { name: '8.mp4', url: encodeURI(mediaDir + '/8.mp4'), type: 'video' },
+        { name: 'City Far Away.mp3', url: encodeURI(mediaDir + '/City Far Away.mp3'), type: 'audio' },
+        { name: 'laters.mp3', url: encodeURI(mediaDir + '/laters.mp3'), type: 'audio' }
 
-    async function loadManifestFallback(){
-        try{
-            const r = await fetch(mediaDir + '/manifest.json');
-            if (!r.ok) return [];
-            const data = await r.json();
-            if (Array.isArray(data.files)) return data.files.map(f=>({name:f.name,url:f.url|| (mediaDir + '/' + f.name)}));
-            const list = [];
-            ['images','videos','audio'].forEach(k=>{ if (Array.isArray(data[k])) data[k].forEach(n=> list.push({name:n,url:mediaDir + '/' + n})) });
-            return list;
-        }catch(e){return []}
-    }
-
-    async function discoverFiles(){
-        let files = await listMediaFromGitHub();
-        if (files && files.length) return files;
-        files = await loadManifestFallback();
-        return files;
-    }
-
-    const files = await discoverFiles();
+    ];
     if (!files.length){
         mediaListEl.textContent = 'No media discovered. If using GitHub Pages add files to the "' + mediaDir + '" folder or provide a manifest.json. You can also pass ?gh=owner/repo in the URL.';
     } else {
         files.sort((a,b)=> a.name.localeCompare(b.name));
-        files.forEach(f=>{
+        files.forEach((f, idx)=>{
             const p = makePlaceholder(f);
+            p.dataset.index = idx;
+            p.addEventListener('click', (ev)=>{
+                const eext = extOf(f.name);
+                if (mediaExtensions.audio.includes(eext)){
+                    window.currentIndex = window.songs.indexOf(f.url);
+                    if (window.currentIndex === -1){
+                        window.songs = files.filter(x=> mediaExtensions.audio.includes(extOf(x.name))).map(x=>x.url);
+                        window.currentIndex = window.songs.indexOf(f.url);
+                    }
+                    if (window.currentIndex >= 0){
+                        window.updateSongInfo();
+                        audioPlayer.play().catch(()=>{});
+                    }
+                }
+            });
             mediaListEl.appendChild(p);
             observer.observe(p);
         });
@@ -212,4 +239,3 @@ document.addEventListener('DOMContentLoaded', async function(){
     </script>
 </body>
 </html>
-
