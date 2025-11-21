@@ -2,6 +2,8 @@
     const mainf = document.getElementById('MainF');
     const musicf = document.getElementById('MusicF');
     const otherf = document.getElementById('OtherF');
+    const close = document.getElementById('close');
+
     musicf.addEventListener('click', () => {
         var p = document.getElementById('mainpara');
         var header = document.getElementById('mainheader');
@@ -39,7 +41,7 @@
         title.textContent = 'About Me';
         header.textContent = 'About Me';
         p.textContent = 'Currently studying in web programming'
-        p.innerHTML += '<br><br>Prog and Markup Languages: C#, JS, C++, PHP, HTML, CSS, Python<br><br>Tools: VS Code, VS, MySQL, VmWare, VBox, Putty (SSH), Packet Tracer<br><br>Operating Systems: Windows, Debian Linux, Ubuntu Linux<br><br><a href="https://github.com/lenoobkinda" style="text-decoration: underline;">Link to my GitHub</a>';
+        p.innerHTML += '<br><br>Prog and Markup Languages: C#, JS, C++, PHP, HTML, CSS Python<br><br>Tools: VS Code, VS, MySQL, VmWare, VBox, Putty (SSH), Packet Tracer<br><br>Operating Systems: Windows, Debian Linux, Ubuntu Linux<br><br><a href="https://github.com/lenoobkinda" style="text-decoration: underline;">Link to my GitHub</a>';
     })
 
     mainf.addEventListener('click', () => {
@@ -59,7 +61,13 @@
       max.classList.add('fake-pressed');
       setTimeout(()=> max.classList.remove('fake-pressed'), 150);
     });
-
+    close.addEventListener('click', () => {
+      close.classList.add('fake-pressed');
+      setTimeout(()=> close.classList.remove('fake-pressed'), 150);
+      win.style.transform = 'scale(0.92)';
+      win.style.opacity = '0.0';
+      setTimeout(()=> win.style.display = 'none', 220);
+    });
     (function(){
       const titlebar = document.getElementById('titlebar');
       let dragging = false;
@@ -87,5 +95,70 @@
         dragging = false;
         win.style.transition = '';
       });
-
     })();
+
+(function(){
+  const firstDockBtn = document.querySelector('.dock .dock-item');
+  if (!firstDockBtn) return;
+  firstDockBtn.addEventListener('click', () => {
+    const winEl = document.getElementById('window');
+    if (!winEl) return;
+    const cs = window.getComputedStyle(winEl);
+    const isHidden = cs.display === 'none' || cs.opacity === '0';
+    if (isHidden) {
+      winEl.style.display = '';
+      winEl.style.transform = '';
+      winEl.style.opacity = '1';
+      winEl.style.zIndex = '';
+    } else {
+      winEl.style.transform = 'scale(0.92)';
+      winEl.style.opacity = '0';
+      setTimeout(()=> winEl.style.display = 'none', 220);
+    }
+  });
+})();
+    (function(){
+  const dock = document.getElementById('dock');
+  if (!dock) return;
+  const items = Array.from(dock.querySelectorAll('.dock-item'));
+
+  dock.addEventListener('mousemove', (e) => {
+    const rect = dock.getBoundingClientRect();
+    const mouseX = e.clientX;
+    items.forEach((btn) => {
+      const bRect = btn.getBoundingClientRect();
+    
+      const centerX = bRect.left + bRect.width / 2;
+      const dist = Math.abs(mouseX - centerX);
+      const maxDist = 120; 
+      const normalized = Math.max(0, 1 - (dist / maxDist)); 
+      const scale = 1 + normalized * 0.9; 
+      btn.style.transform = `translateY(${-(normalized*8)}px) scale(${scale})`;
+      btn.style.zIndex = Math.round(100 + normalized * 100);
+    });
+  });
+
+  dock.addEventListener('mouseleave', () => {
+    items.forEach((btn) => {
+      btn.style.transform = '';
+      btn.style.zIndex = '';
+    });
+  });
+
+  items.forEach(btn => {
+    btn.addEventListener('click', () => {
+      items.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const app = btn.dataset.app;
+      if (app === 'music') {
+        window.open('https://hyperfollow/ProdHaine', '_blank');
+      } else if (app === 'finder') {
+        const mainBtn = document.getElementById('MainF');
+        if (mainBtn) mainBtn.click();
+      } else if (app === 'browser') {
+        window.open('https://github.com/lenoobkinda', '_blank');
+      }
+    });
+  });
+})();

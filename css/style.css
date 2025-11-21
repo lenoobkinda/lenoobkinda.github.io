@@ -14,7 +14,8 @@
       font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, system-ui;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      background: linear-gradient(360deg, var(--bg-top), var(--bg-bottom));
+      background: url("../img/bg.jpg") no-repeat center center fixed;
+      background-size: cover;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -130,3 +131,78 @@
     }
 
     .btn.fake-pressed{box-shadow:inset 0 2px 4px rgba(0,0,0,0.12)}
+    .dock{
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999;
+      pointer-events: auto;
+    }
+    .drive{
+      position: fixed;
+      top: 60px;
+      right: 75px;
+      z-index: 999;
+      pointer-events: auto;
+    }
+    .drive img{
+      width: 90px;
+    }
+    .drive img:active{
+      transform: scale(0.95);
+    }
+    .dock-inner{
+      display:flex;
+      gap:10px;
+      align-items:flex-end;
+      padding:0 50px;
+      border-radius:40px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px) saturate(120%);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .dock-item{
+      display:inline-flex;
+      align-items:flex-end;
+      justify-content:center;
+      width:56px;
+      height:56px;
+      background:transparent;
+      border: none;
+      padding:0;
+      margin: 20px 0;
+      cursor:pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease;
+      transform-origin: center bottom;
+    }
+    .dock-item img{
+      width:44px;
+      height:44px;
+      display:block;
+      user-select:none;
+      pointer-events:none;
+    }
+
+    .dock-item::after{
+      content:'';
+      display:block;
+      width:6px;
+      height:6px;
+      margin:6px auto 0;
+      border-radius:999px;
+      background:transparent;
+      transition: background 150ms ease, transform 150ms ease;
+    }
+    .dock-item.active::after{
+      background: #2ecc71;
+      transform: translateY(0);
+    }
+
+    @media (max-width:560px){
+      .dock-inner{ padding:8px; gap:8px; }
+      .dock-item{ width:44px; height:44px; }
+      .dock-item img{ width:36px; height:36px; }
+    }
