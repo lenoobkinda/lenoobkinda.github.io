@@ -152,7 +152,7 @@
 
       const app = btn.dataset.app;
       if (app === 'music') {
-        window.open('https://hyperfollow/ProdHaine', '_blank');
+        window.open('https://hyperfollow.com/ProdHaine', '_blank');
       } else if (app === 'finder') {
         const mainBtn = document.getElementById('MainF');
         if (mainBtn) mainBtn.click();
@@ -161,4 +161,5 @@
       }
     });
   });
+
 })();
