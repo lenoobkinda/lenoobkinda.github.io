@@ -7,9 +7,35 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="drive">
-      <a href="library.html"><img src="img/drive.png" alt="drive"></a>
+  <header class="topbar">
+      <div class="topbar-inner">
+      <div class="topbar-left">
+        <button class="apple-btn" aria-label="Apple menu">
+          <img src="img/apple.svg" alt="Apple" class="apple-logo">
+        </button>
+        <span class="app-name"></span>
+      </div>
+      <nav class="topbar-center" aria-label="Application menus">
+        <button class="menu-item">File</button>
+        <button class="menu-item">Edit</button>
+        <button class="menu-item">View</button>
+        <button class="menu-item">Window</button>
+        <button class="menu-item">Help</button>
+      </nav>
+      <div class="topbar-right">
+        <button class="status-item" title="Wi‑Fi">
+          <img src="img/wifi.png" alt="Wi‑Fi" class="status-icon">
+        </button>
+        <button class="status-item" title="Battery">
+          <img src="img/battery.png" alt="Battery" class="status-icon">
+        </button>
+        <time class="clock" id="topbar-clock"></time>
+      </div>
     </div>
+  </header>
+  <div class="drive">
+    <a href="library.html"><img src="img/drive.png" alt="drive"></a>
+  </div>
 
   <div class="macgui">
     <div id="dock" class="dock" aria-hidden="false">
